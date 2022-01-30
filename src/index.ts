@@ -1,5 +1,5 @@
 import { hof } from "./utils/curryfunc";
-// import { Parallel } from "./utils/parallel";
+import { Parallel } from "./utils/parallel";
 // import { sumfunc } from "./utils/sumfunc";
 // import { spiral } from "./utils/spiral";
 // import { semverSort } from "./utils/semversort";
@@ -20,13 +20,13 @@ console.log(hof(5)(6)(7)(8)(9)); // 35
 
 // console.log(semverSort(["1.0.5", "2.5.0", "0.12.0", "1", "1.23.45", "1.4.50", "1.2.3.4.5.6.7"]));
 
-// const runner = new Parallel();
+const runner = new Parallel(5);
 
-// console.log(await runner
-//     .jobs(
-//         () => new Promise((resolve) => setTimeout(resolve, 10, 1)),
-//         () => new Promise((resolve) => setTimeout(resolve, 50, 2)),
-//         () => new Promise((resolve) => setTimeout(resolve, 20, 3)),
-//         () => new Promise((resolve) => setTimeout(resolve, 90, 4)),
-//         () => new Promise((resolve) => setTimeout(resolve, 30, 5)),
-//     ))
+console.log(await runner
+    .jobs(
+        () => new Promise((resolve) => setTimeout(resolve, 10, 1)),
+        () => new Promise((resolve) => setTimeout(resolve, 50, 2)),
+        () => new Promise((resolve) => setTimeout(resolve, 20, 3)),
+        () => new Promise((resolve) => setTimeout(resolve, 90, 4)),
+        () => new Promise((resolve) => setTimeout(resolve, 30, 5)),
+    ))

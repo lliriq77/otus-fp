@@ -1,39 +1,37 @@
-interface Parallel {
-    lim: number;
-    this: {};
-    jobs(threads: {}): {};
+export interface Parallel {
+  new(lim: number): number;
 }
 
-class Parallel {
+export class Parallel implements Parallel {
+  constructor(lim: number) {
+    this.threads = lim;
+  }
 
-    costructor(lim: number) {
-        this.lim = lim;
+  threads: number;
+  arr: number[] = [];
+
+  async jobs(...args: Function[]) {
+    let i = -1;
+    const threadLim = [];
+    threadLim.length = this.threads;
+    const { arr } = this;
+
+    for (let n = 0; n < threadLim.length; n += 1) {
+      runJob();
     }
 
-    async jobs(...args: Function[]) {
+    async function runJob() {
+      i += 1;
 
-        let i: number = 0;
-        let arr: number[] = [];
-        let threadLim = [];
-        threadLim.length = 2;
+      if (i > args.length - 1) return;
 
-        for (let n = 0; n < threadLim.length; n += 1) {
-            runJob(args[i]);
-            i += 1;
-        }
+      args[i]().then((result: number) => {
+        arr.push(result);
 
-        function runJob(arg: Function) {
-            console.log(`run i:${i}`)
-            arg().then(function (result: number) {
-                console.log(`result: "${result}" i ="${i}`);
-                arr.push(result);
-                if (i == args.length - 1) return;
-                return runJob(args[i += 1]);
-            });
-        };
-        return arr;
+        return runJob();
+      });
     }
+
+    return this.arr;
+  }
 }
-
-export let runner = new Parallel();
-
