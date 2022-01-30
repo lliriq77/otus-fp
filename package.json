@@ -57,8 +57,5 @@
       "eslint --cache --fix --ext .js,.ts"
     ],
     "*.{md,yml}": "prettier --write"
-  },
-  "dependencies": {
-    "npm": "^8.4.0"
   }
 }
