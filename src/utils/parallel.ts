@@ -1,5 +1,5 @@
 export interface Parallel {
-  new(lim: number): number;
+  new (lim: number): number;
 }
 
 export class Parallel implements Parallel {
@@ -26,18 +26,15 @@ export class Parallel implements Parallel {
 
       arr.push(await args[i]());
       runJob();
-
     }
 
     return new Promise((resolve) => {
-
       const timer = setInterval(() => {
-
         if (arr.length === args.length) {
           clearInterval(timer);
           resolve(arr);
         }
-      }, 1)
+      }, 1);
     });
   }
 }

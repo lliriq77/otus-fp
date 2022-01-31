@@ -1,6 +1,7 @@
 import { Parallel } from "./parallel";
 
 const runner = new Parallel(2);
+const runner5 = new Parallel(5);
 
 describe("Parallel", () => {
   it("is a function", () => {
@@ -19,10 +20,8 @@ describe("Parallel", () => {
     ).toStrictEqual([1, 3, 2, 5, 4]);
   });
   it("returns an array of results", async () => {
-
-    const runner = new Parallel(5);
     expect(
-      await runner.jobs(
+      await runner5.jobs(
         () => new Promise((resolve) => setTimeout(resolve, 10, 1)),
         () => new Promise((resolve) => setTimeout(resolve, 50, 2)),
         () => new Promise((resolve) => setTimeout(resolve, 20, 3)),

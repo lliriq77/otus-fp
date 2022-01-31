@@ -1,6 +1,6 @@
 import { hof } from "./utils/curryfunc";
 import { Parallel } from "./utils/parallel";
-// import { sumfunc } from "./utils/sumfunc";
+import { sumfunc } from "./utils/sumfunc";
 // import { spiral } from "./utils/spiral";
 // import { semverSort } from "./utils/semversort";
 
@@ -30,3 +30,15 @@ console.log(
     () => new Promise((resolve) => setTimeout(resolve, 30, 5))
   )
 );
+
+alert(sumfunc()); // 0;
+
+const s = sumfunc();
+alert(s(1)); // 1
+alert(s(1)(2)); // 3
+alert(s(3)(4)(5)); // 12
+
+const s3 = sumfunc(3);
+
+alert(s3(5)); // 8
+alert(s3(6)); // 9

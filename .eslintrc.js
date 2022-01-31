@@ -16,6 +16,7 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
+    "@typescript-eslint/no-var-requires": "off",
     "no-nested-ternary": "off",
     "no-restricted-globals": "off",
     "no-undef": "off",
