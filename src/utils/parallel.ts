@@ -12,26 +12,26 @@ export class Parallel implements Parallel {
 
   async jobs(...args: Function[]) {
     let i = -1;
-    const threadLim = [];
-    threadLim.length = this.threads;
     const { arr } = this;
 
-    for (let n = 0; n < threadLim.length; n += 1) {
+    for (let n = 0; n < this.threads; n += 1) {
       runJob();
     }
 
-    async function runJob() {
+    function runJob() {
       i += 1;
 
       if (i > args.length - 1) return;
 
       args[i]().then((result: number) => {
         arr.push(result);
-
-        return runJob();
+        runJob();
       });
     }
 
-    return this.arr;
+    return new Promise(function (resolve) {
+      setTimeout(() => resolve(arr), 2000);
+    }).then(result => result);
+
   }
 }
