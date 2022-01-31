@@ -8,9 +8,10 @@ export class Parallel implements Parallel {
   }
 
   threads: number;
+
   arr: number[] = [];
 
-  async jobs(...args: Function[]) {
+  async jobs(...args: (() => Promise<number>)[]) {
     let i = -1;
     const { arr } = this;
 
@@ -18,20 +19,25 @@ export class Parallel implements Parallel {
       runJob();
     }
 
-    function runJob() {
+    async function runJob(): Promise<void> {
       i += 1;
 
       if (i > args.length - 1) return;
 
-      args[i]().then((result: number) => {
-        arr.push(result);
-        runJob();
-      });
+      arr.push(await args[i]());
+      runJob();
+
     }
 
-    return new Promise(function (resolve) {
-      setTimeout(() => resolve(arr), 2000);
-    }).then(result => result);
+    return new Promise((resolve) => {
 
+      const timer = setInterval(() => {
+
+        if (arr.length === args.length) {
+          clearInterval(timer);
+          resolve(arr);
+        }
+      }, 1)
+    });
   }
 }
