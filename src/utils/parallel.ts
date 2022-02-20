@@ -12,29 +12,25 @@ export class Parallel implements Parallel {
   arr: number[] = [];
 
   async jobs(...args: (() => Promise<number>)[]) {
-    let i = -1;
-    const { arr } = this;
-
-    for (let n = 0; n < this.threads; n += 1) {
-      runJob();
-    }
-
-    async function runJob(): Promise<void> {
-      i += 1;
-
-      if (i > args.length - 1) return;
-
-      arr.push(await args[i]());
-      runJob();
-    }
+    const jobs = [...args];
 
     return new Promise((resolve) => {
-      const timer = setInterval(() => {
-        if (arr.length === args.length) {
-          clearInterval(timer);
-          resolve(arr);
+      for (let n = 0; n < this.threads; n += 1) {
+        runJob.call(this);
+      }
+
+      async function runJob(this: Parallel): Promise<void> {
+        const job = jobs.shift();
+
+        if (job) {
+          job().then((value) => {
+            this.arr.push(value);
+
+            if (this.arr.length === args.length) resolve(this.arr);
+            runJob.call(this);
+          });
         }
-      }, 1);
+      }
     });
   }
 }
